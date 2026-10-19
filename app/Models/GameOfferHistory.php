@@ -18,9 +18,9 @@ class GameOfferHistory extends Model
     protected function casts(): array
     {
         return [
-            'original_price' => 'integer',
+            'original_price' => 'decimal:2',
             'discount_percentage' => 'integer',
-            'final_price' => 'integer',
+            'final_price' => 'decimal:2',
             'recorded_at' => 'datetime',
             'is_simulated' => 'boolean',
         ];

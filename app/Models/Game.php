@@ -12,16 +12,21 @@ class Game extends Model
     protected $fillable = [
         'title',
         'slug',
+        'steam_app_id',
         'description',
         'genre',
         'release_date',
         'cover_image',
         'popularity',
+        'last_synced_at',
     ];
     protected function casts(): array
     {
         return [
-            'release_date' => 'date', 'popularity' => 'integer',
+            'release_date' => 'date',
+            'popularity' => 'integer',
+            'steam_app_id' => 'integer',
+            'last_synced_at' => 'datetime',
         ];
     }
     public function offers(): HasMany
@@ -30,7 +35,7 @@ class Game extends Model
     }
     public function scopeWithDealSummary(Builder $query, ?callable $offerFilters = null): Builder
     {
-        $offerFilters ??= static fn (Builder $offers) => $offers->where('discount_percentage', '>', 0);
+        $offerFilters ??= static fn (Builder $offers) => $offers->where('source', '!=', 'seed');
 
         return $query->withMin(['offers as lowest_price' => fn (Builder $offers) => $offerFilters($offers)], 'final_price')
             ->withMax(['offers as highest_discount' => fn (Builder $offers) => $offerFilters($offers)], 'discount_percentage');

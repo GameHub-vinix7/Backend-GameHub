@@ -19,7 +19,7 @@ class WishlistController extends Controller
         $items = WishlistItem::query()
             ->where('client_id', $clientId)
             ->with(['game' => function ($games): void {
-                $games->with(['offers' => fn ($offers) => $offers->where('discount_percentage', '>', 0)])
+                $games->with(['offers' => fn ($offers) => $offers->where('source', '!=', 'seed')])
                     ->withDealSummary();
             }])
             ->latest()
@@ -36,7 +36,7 @@ class WishlistController extends Controller
         ]);
 
         $game = Game::query()
-            ->with(['offers' => fn ($offers) => $offers->where('discount_percentage', '>', 0)])
+            ->with(['offers' => fn ($offers) => $offers->where('source', '!=', 'seed')])
             ->withDealSummary()
             ->where('slug', $validated['slug'])
             ->firstOrFail();

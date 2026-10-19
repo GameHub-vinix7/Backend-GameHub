@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'cheapshark' => [
+        'contact_email' => env('CHEAPSHARK_CONTACT_EMAIL'),
+    ],
+
 ];

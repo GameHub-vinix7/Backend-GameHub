@@ -17,7 +17,7 @@ class GameController extends Controller
         $filters = $request->validate([
             'search' => ['sometimes', 'string', 'max:100'],
             'genre' => ['sometimes', 'string', 'max:60'],
-            'platform' => ['sometimes', Rule::in(['Steam', 'Epic Games'])],
+            'platform' => ['sometimes', Rule::in(['Steam', 'Epic Games', 'CheapShark'])],
             'min_price' => ['sometimes', 'integer', 'min:0'],
             'max_price' => ['sometimes', 'integer', 'min:0', ...($request->filled('min_price') ? ['gte:min_price'] : [])],
             'min_discount' => ['sometimes', 'integer', 'between:1,100'],
@@ -26,7 +26,7 @@ class GameController extends Controller
         ]);
 
         $offerFilters = static function (BuilderContract $offers) use ($filters): void {
-            $offers->where('discount_percentage', '>', 0);
+            $offers->where('source', '!=', 'seed');
 
             if (isset($filters['platform'])) {
                 $offers->where('platform', $filters['platform']);
@@ -70,12 +70,12 @@ class GameController extends Controller
     public function show(string $slug): GameResource
     {
         $game = Game::with([
-            'offers' => fn ($offers) => $offers->where('discount_percentage', '>', 0),
+            'offers' => fn ($offers) => $offers->where('source', '!=', 'seed'),
             'systemRequirements',
         ])
             ->withDealSummary()
             ->where('slug', $slug)
-            ->whereHas('offers', fn ($offers) => $offers->where('discount_percentage', '>', 0))
+            ->whereHas('offers', fn ($offers) => $offers->where('source', '!=', 'seed'))
             ->firstOrFail();
 
 
@@ -84,12 +84,16 @@ class GameController extends Controller
 
     public function genres()
     {
-        return response()->json(Game::query()->whereHas('offers', fn (Builder $q) => $q->where('discount_percentage', '>', 0))
+        return response()->json(Game::query()->whereHas('offers', fn (Builder $q) => $q->where('source', '!=', 'seed'))
             ->distinct()->orderBy('genre')->pluck('genre'));
     }
 
     public function platforms()
     {
-        return response()->json(['Steam', 'Epic Games']);
+        return response()->json(\App\Models\GameOffer::query()
+            ->where('source', '!=', 'seed')
+            ->distinct()
+            ->orderBy('platform')
+            ->pluck('platform'));
     }
 }

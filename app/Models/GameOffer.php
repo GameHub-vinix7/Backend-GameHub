@@ -11,6 +11,8 @@ class GameOffer extends Model
     protected $fillable = [
         'game_id',
         'platform',
+        'source',
+        'currency',
         'original_price',
         'discount_percentage',
         'final_price',
@@ -19,9 +21,9 @@ class GameOffer extends Model
     public function casts(): array
     {
         return [
-            'original_price' => 'integer',
+            'original_price' => 'decimal:2',
             'discount_percentage' => 'integer',
-            'final_price' => 'integer',
+            'final_price' => 'decimal:2',
         ];
     }
 
