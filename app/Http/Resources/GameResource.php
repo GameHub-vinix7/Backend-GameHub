@@ -29,6 +29,7 @@ class GameResource extends JsonResource
                 'final_price' => (float) $offer->final_price,
                 'currency' => $offer->currency,
                 'store_url' => $offer->store_url,
+                'updated_at' => $offer->updated_at?->toIso8601String(),
             ])->values()),
             'system_requirements' => $this->whenLoaded(
             'systemRequirements',

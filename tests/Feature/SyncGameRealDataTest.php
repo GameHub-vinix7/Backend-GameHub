@@ -14,7 +14,7 @@ class SyncGameRealDataTest extends TestCase
     {
         $this->seed();
 
-        $this->assertDatabaseCount('games', 8);
+        $this->assertDatabaseCount('games', 10);
         $this->assertDatabaseCount('game_offers', 0);
         $this->assertDatabaseCount('game_offer_histories', 0);
         $this->assertDatabaseCount('game_system_requirements', 0);

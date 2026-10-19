@@ -16,6 +16,24 @@ Seeder menyiapkan daftar game dan Steam App ID sebagai target sinkronisasi; data
 php artisan games:sync-real-data --game=hades
 ```
 
-Slug lain yang tersedia: `stardew-valley`, `cyberpunk-2077`, `control-ultimate-edition`, `the-witcher-3-wild-hunt`, `celeste`, `dead-cells`, dan `sifu`. Perintah mengambil metadata, harga regional Indonesia, serta persyaratan PC dari Steam, lalu menyimpannya ke MySQL. Integrasi saat ini memakai Steam sebagai sumber utama; API Epic tidak dipanggil langsung. Jika Steam tidak memberi harga, satu permintaan CheapShark untuk game tersebut dicoba; harga CheapShark disimpan dalam USD dan link diarahkan melalui halaman deal CheapShark.
+Slug lain yang tersedia: `stardew-valley`, `cyberpunk-2077`, `control-ultimate-edition`, `the-witcher-3-wild-hunt`, `celeste`, `dead-cells`, dan `sifu`. Perintah mengambil metadata, harga regional Indonesia, serta persyaratan PC dari Steam, lalu menyimpannya ke MySQL. Integrasi saat ini memakai Steam sebagai sumber utama. Jika Steam tidak memberi harga, satu permintaan CheapShark untuk game tersebut dicoba; harga CheapShark disimpan dalam USD dan link diarahkan melalui halaman deal CheapShark.
 
-Tidak ada mode `--all` atau sinkronisasi terjadwal CheapShark. Jangan menjalankan banyak perintah CheapShark sekaligus. Setelah tersimpan, frontend mengambil data melalui endpoint Laravel `/api/games`, `/api/games/{slug}`, dan `/api/games/{slug}/price-history`. Alamat kontak CheapShark bersifat opsional dan dapat diatur melalui `CHEAPSHARK_CONTACT_EMAIL`.
+## Sinkronisasi offer Epic Games
+
+Epic GraphQL menolak permintaan server-side dari fingerprint TLS non-browser (Cloudflare 403), sehingga adapter Epic membaca katalog publik egdata.app (`/search/v2/search`) yang memuat harga regional Epic dalam IDR. Hanya kecocokan judul persis atau slug produk kanonik yang diterima; hasil seperti "Hades II", pre-purchase, bundle, dan harga non-IDR ditolak.
+
+Sinkronkan satu game:
+
+```bash
+php artisan games:sync-epic --game=hades
+```
+
+Atau seluruh katalog (satu permintaan per game dengan jeda 750 ms):
+
+```bash
+php artisan games:sync-epic
+```
+
+Perintah ini membuat/memperbarui offer `Epic Games` (`source=epic`) berisi harga, diskon, dan URL produk Epic, lalu mencatat riwayat harga nyata. Game yang tidak tersedia di katalog Epic regional Indonesia akan dilewati tanpa menghapus offer lama. Frontend menampilkan harga/diskon Epic dari respons `/api/games` dan `/api/games/{slug}`; bila offer Epic belum ada, kartu Epic tetap memakai identitas game dari API dengan keterangan "Harga belum tersedia".
+
+Tidak ada mode `--all` untuk Steam/CheapShark. Jangan menjalankan banyak perintah CheapShark sekaligus. Setelah tersimpan, frontend mengambil data melalui endpoint Laravel `/api/games`, `/api/games/{slug}`, dan `/api/games/{slug}/price-history`. Alamat kontak CheapShark bersifat opsional dan dapat diatur melalui `CHEAPSHARK_CONTACT_EMAIL`.
