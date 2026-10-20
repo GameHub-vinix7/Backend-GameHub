@@ -32,18 +32,20 @@ class GameResource extends JsonResource
                 'updated_at' => $offer->updated_at?->toIso8601String(),
             ])->values()),
             'system_requirements' => $this->whenLoaded(
-            'systemRequirements',
-            fn () => $this->systemRequirements->map(fn ($requirement) => [
-                'type' => $requirement->requirement_type,
-                'operating_system' => $requirement->operating_system,
-                'processor' => $requirement->processor,
-                'memory' => $requirement->memory,
-                'graphics' => $requirement->graphics,
-                'network' => $requirement->network,
-                'storage' => $requirement->storage,
-                'sound_card' => $requirement->sound_card,
-            ])->values(),
+                'systemRequirements',
+                fn () => $this->systemRequirements->map(fn ($requirement) => [
+                    'platform' => $requirement->platform,
+                    'type' => $requirement->requirement_type,
+                    'operating_system' => $requirement->operating_system,
+                    'processor' => $requirement->processor,
+                    'memory' => $requirement->memory,
+                    'graphics' => $requirement->graphics,
+                    'network' => $requirement->network,
+                    'storage' => $requirement->storage,
+                    'sound_card' => $requirement->sound_card,
+                    'other' => $requirement->other,
+                ])->values(),
             ),
-                ];
+        ];
     }
 }

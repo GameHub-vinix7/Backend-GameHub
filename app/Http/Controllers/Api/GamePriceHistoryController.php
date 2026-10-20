@@ -14,7 +14,7 @@ class GamePriceHistoryController extends Controller
     public function show(Request $request, string $slug)
     {
         $filters = $request->validate([
-            'platform' => ['sometimes', Rule::in(['Steam', 'Epic Games', 'CheapShark'])],
+            'platform' => ['sometimes', Rule::in(['Steam', 'Epic Games', 'CheapShark', 'GOG'])],
             'from' => ['sometimes', 'date'],
             'to' => ['sometimes', 'date', ...($request->filled('from') ? ['after_or_equal:from'] : [])],
         ]);

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Game;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
@@ -14,7 +15,8 @@ class SyncGameRealDataTest extends TestCase
     {
         $this->seed();
 
-        $this->assertDatabaseCount('games', 10);
+        $this->assertDatabaseCount('games', 11);
+        $this->assertDatabaseHas('games', ['slug' => 'the-witcher-2']);
         $this->assertDatabaseCount('game_offers', 0);
         $this->assertDatabaseCount('game_offer_histories', 0);
         $this->assertDatabaseCount('game_system_requirements', 0);
@@ -32,7 +34,7 @@ class SyncGameRealDataTest extends TestCase
     public function test_legacy_seeded_offer_is_not_exposed_as_a_real_price(): void
     {
         $this->seed();
-        $game = \App\Models\Game::where('slug', 'hades')->firstOrFail();
+        $game = Game::where('slug', 'hades')->firstOrFail();
         $game->offers()->create([
             'platform' => 'Steam',
             'original_price' => 139000,
@@ -82,7 +84,7 @@ class SyncGameRealDataTest extends TestCase
             'steam_app_id' => 1145360,
             'description' => 'Defy the god of the dead.',
         ]);
-        $this->assertSame('2020-09-17', \App\Models\Game::where('slug', 'hades')->firstOrFail()->release_date->toDateString());
+        $this->assertSame('2020-09-17', Game::where('slug', 'hades')->firstOrFail()->release_date->toDateString());
         $this->assertDatabaseHas('game_system_requirements', [
             'requirement_type' => 'minimum',
             'operating_system' => 'Windows 10 64-bit',

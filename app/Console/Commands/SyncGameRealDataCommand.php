@@ -8,7 +8,6 @@ use App\Services\CheapSharkService;
 use App\Services\SteamStoreService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-
 use Throwable;
 
 class SyncGameRealDataCommand extends Command
@@ -93,7 +92,7 @@ class SyncGameRealDataCommand extends Command
 
                 foreach ($steamData['system_requirements'] ?? [] as $type => $specification) {
                     $game->systemRequirements()->updateOrCreate(
-                        ['requirement_type' => $type],
+                        ['platform' => 'Steam', 'requirement_type' => $type],
                         $specification,
                     );
                 }

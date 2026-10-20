@@ -20,6 +20,25 @@ class DatabaseSeeder extends Seeder
             ['title' => 'Sifu', 'slug' => 'sifu', 'steam_app_id' => 2138710, 'description' => 'Game aksi bela diri dengan mekanik penuaan setiap kali karakter tumbang.', 'genre' => 'Action', 'release_date' => '2022-02-08', 'cover_image' => 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2138710/capsule_616x353.jpg', 'popularity' => 82],
             ['title' => 'Warhammer 40,000: Space Marine 2','slug' => 'warhammer-40000-space-marine-2','steam_app_id' => 2183900,'description' => 'Game aksi Warhammer 40,000.','genre' => 'Action','release_date' => '2024-09-09','cover_image' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFj-zhXvbyOYp1jZh_METOP_sOmWWN53sM52m5BjdlrtSl9rbX1FJhr8_Y&s=10','popularity' => 0,],
             ['title' => 'Hollow Knight: Silksong','slug' => 'hollow-knight-silksong','steam_app_id' => 1030300,'description' => 'Sekuel Hollow Knight, platformer aksi dengan dunia yang luas dan penuh rahasia.','genre' => 'Action Platformer','release_date' => '2024-10-12','cover_image' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQm9Z8XonoaF_CVq8qPZcHTSheLN6D50ZsV-8uW0ZfKA&s=10','popularity' => 0,],
+                // tambah game gog
+            [
+            'title' => 'The Witcher 2: Assassins of Kings Enhanced Edition',
+            'slug' => 'the-witcher-2',
+            'description' => 'RPG aksi fantasi.',
+            'genre' => 'RPG',
+            'release_date' => '2011-05-17',
+            'cover_image' => 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/20920/capsule_616x353.jpg?t=1761657279',
+            'popularity' => 0,
+            ],
+                        [
+                'title' => 'OCTOPATH TRAVELER™',
+                'slug' => 'octopath_traveler',
+                'description' => 'Eight travelers. Eight adventures. Eight roles to play. Embark on an epic journey across the vast and wondrous world of Orsterra and discover the captivating stories of each of the eight travelers.',
+                'genre' => 'Adventure',
+                'release_date' => '2019-06-7',
+                'cover_image' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL_47E_HzO7Q9PKGaR6YhbCTlZVl3ZkuBA7m25WLsYEn1AiT3A_KUoi1A&s=10',
+                'popularity' => 0,
+            ],
         ];
 
         foreach ($games as $data) {

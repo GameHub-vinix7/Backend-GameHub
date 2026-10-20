@@ -36,4 +36,14 @@ php artisan games:sync-epic
 
 Perintah ini membuat/memperbarui offer `Epic Games` (`source=epic`) berisi harga, diskon, dan URL produk Epic, lalu mencatat riwayat harga nyata. Game yang tidak tersedia di katalog Epic regional Indonesia akan dilewati tanpa menghapus offer lama. Frontend menampilkan harga/diskon Epic dari respons `/api/games` dan `/api/games/{slug}`; bila offer Epic belum ada, kartu Epic tetap memakai identitas game dari API dengan keterangan "Harga belum tersedia".
 
+## Sinkronisasi offer GOG
+
+Perintah GOG mencari satu game yang sudah terdaftar di katalog lokal menggunakan judul persis. Hanya harga IDR dengan slug produk valid yang disimpan; mata uang lain dan hasil pencarian yang tidak cocok ditolak. Sinkronisasi satu game:
+
+```bash
+php artisan games:sync-gog --game=the-witcher-2
+```
+
+Ganti slug dengan slug game yang sudah ada di database. Perintah menyimpan offer `GOG` (`source=gog`) beserta tautan produk, lalu menambah riwayat hanya saat harga/diskon berubah. Perintah juga mengambil persyaratan minimum dan rekomendasi dari detail produk GOG, menyimpannya terpisah dari persyaratan Steam, lalu menampilkannya pada bagian **Persyaratan Sistem** di detail game. Persyaratan beberapa sistem operasi ditampilkan dengan label OS; kolom `Lainnya` mencakup kebutuhan tambahan GOG. Untuk database yang sudah berjalan, jalankan `php artisan migrate` sebelum sinkronisasi. API `/api/games?platform=GOG`, `/api/games/platforms`, dan `/api/games/{slug}/price-history?platform=GOG` mendukung offer ini. Sinkronisasi massal sengaja tidak diaktifkan.
+
 Tidak ada mode `--all` untuk Steam/CheapShark. Jangan menjalankan banyak perintah CheapShark sekaligus. Setelah tersimpan, frontend mengambil data melalui endpoint Laravel `/api/games`, `/api/games/{slug}`, dan `/api/games/{slug}/price-history`. Alamat kontak CheapShark bersifat opsional dan dapat diatur melalui `CHEAPSHARK_CONTACT_EMAIL`.

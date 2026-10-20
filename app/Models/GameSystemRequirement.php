@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class GameSystemRequirement extends Model
 {
     protected $fillable = [
+        'platform',
         'requirement_type',
         'operating_system',
         'processor',
@@ -16,9 +17,10 @@ class GameSystemRequirement extends Model
         'network',
         'storage',
         'sound_card',
+        'other',
     ];
 
-        public function game(): BelongsTo
+    public function game(): BelongsTo
     {
         return $this->belongsTo(Game::class);
     }

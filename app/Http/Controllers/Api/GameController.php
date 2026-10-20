@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\GameResource;
 use App\Models\Game;
+use App\Models\GameOffer;
 use Illuminate\Contracts\Database\Eloquent\Builder as BuilderContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class GameController extends Controller
         $filters = $request->validate([
             'search' => ['sometimes', 'string', 'max:100'],
             'genre' => ['sometimes', 'string', 'max:60'],
-            'platform' => ['sometimes', Rule::in(['Steam', 'Epic Games', 'CheapShark'])],
+            'platform' => ['sometimes', Rule::in(['Steam', 'Epic Games', 'CheapShark', 'GOG'])],
             'min_price' => ['sometimes', 'integer', 'min:0'],
             'max_price' => ['sometimes', 'integer', 'min:0', ...($request->filled('min_price') ? ['gte:min_price'] : [])],
             'min_discount' => ['sometimes', 'integer', 'between:1,100'],
@@ -78,7 +79,6 @@ class GameController extends Controller
             ->whereHas('offers', fn ($offers) => $offers->where('source', '!=', 'seed'))
             ->firstOrFail();
 
-
         return new GameResource($game);
     }
 
@@ -90,7 +90,7 @@ class GameController extends Controller
 
     public function platforms()
     {
-        return response()->json(\App\Models\GameOffer::query()
+        return response()->json(GameOffer::query()
             ->where('source', '!=', 'seed')
             ->distinct()
             ->orderBy('platform')
