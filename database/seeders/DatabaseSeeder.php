@@ -39,6 +39,28 @@ class DatabaseSeeder extends Seeder
                 'cover_image' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL_47E_HzO7Q9PKGaR6YhbCTlZVl3ZkuBA7m25WLsYEn1AiT3A_KUoi1A&s=10',
                 'popularity' => 0,
             ],
+                                    [
+                'title' => 'Control Ultimate Edition',
+                'slug' => 'control_ultimate_edition',
+                'description' => 'Control Ultimate Edition contains the main game and all previously released Expansions ("The Foundation" and "AWE") in one great value package. 
+
+                A corruptive presence has invaded the Federal Bureau of Control…Only you have the power to stop it. The world is now your weapon in an epic fight to annihilate an ominous enemy through deep and unpredictable environments. Containment has failed, humanity is at stake. Will you regain control?
+
+                Winner of over 80 awards, Control is a visually stunning third-person action-adventure that will keep you on the edge of your seat. Blending open-ended environments with the signature world-building and storytelling of renowned developer, Remedy Entertainment, Control presents an expansive and intensely gratifying gameplay experience.',
+                'genre' => 'Adventure',
+                'release_date' => '2020-09-10',
+                'cover_image' => 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/870780/4276f1547eeda445312ef44655cf1b66c917a5e8/capsule_616x353.jpg?t=1781607969',
+                'popularity' => 0,
+            ],
+                                    [
+                'title' => 'Warhammer 40,000: Space Marine',
+                'slug' => 'warhammer_40000_space_marine',
+                'description' => 'Eight travelers. Eight adventures. Eight roles to play. Embark on an epic journey across the vast and wondrous world of Orsterra and discover the captivating stories of each of the eight travelers.',
+                'genre' => 'Adventure',
+                'release_date' => '2011-09-9',
+                'cover_image' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-kWYeujPKhRgIwd0TY9TWYulF4cINTEYJ-tRNP2ohrA&s=10',
+                'popularity' => 0,
+            ],
         ];
 
         foreach ($games as $data) {
